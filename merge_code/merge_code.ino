@@ -30,16 +30,19 @@ DFRobot_EC ec;
 
 
 void setup(void) {
+  
   ph.begin();
   Wire.begin();
+  Serial.begin(115200);
   I2CMux.begin(Wire);
   I2CMux.openChannel(0);
+    sensorVS.begin();// Wire instance is passed to the library
   I2CMux.closeChannel(0);
   I2CMux.openChannel(1);
   sensorIR.begin();
-  sensorVS.begin();// Wire instance is passed to the library
+
   I2CMux.closeAll();              // Set a base state which we know (also the default state on power on)
-  Serial.begin(115200);
+
 }
 
 
@@ -56,33 +59,35 @@ void loop(void) {
     if(millis()-timepoint>1000U){                  //time interval: 1s
         timepoint = millis();
         temperature = readTemperature();         // read your temperature sensor to execute temperature compensation
+        //temperature = 32.0;
         
         ph_voltage = analogRead(PH_PIN)/1024.0*5000;  // read the ph_voltage
         ph_Value = ph.readPH(ph_voltage,temperature);  // convert ph_voltage to pH with temperature compensation
-        
+        delay(1000);
         ec_voltage = analogRead(EC_PIN)/1024.0*5000;   // read the voltage
         ec_Value = ec.readEC(ec_voltage,temperature);  // convert voltage to EC with temperature compensation
 
         Serial.print("temperature:");
-        Serial.println(temperature,1);
-        Serial.print("^C  pH:");
-
-        Serial.println("pH:");
+        Serial.print(temperature,1);
+        Serial.println("^C");
+        Serial.print("pH:");
         Serial.println(ph_Value,2);
         
-        Serial.println("^EC:");
-        Serial.println(ec_Value);
-        Serial.print("ms/cm");
+        Serial.print("EC:");
+        Serial.print(ec_Value);
+        Serial.println("ms/cm");
     }
     ph.calibration(ph_voltage,temperature);           // calibration process by Serail CMD
 //ph & EC
 
     int sensorValue = analogRead(A2);// read the input on analog pin 2:
     float voltage = sensorValue * (5.0 / 1024.0); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
+    Serial.print("Turbidity: ");
     Serial.println(voltage); // print out the value you read:
-    delay(500);
+    //delay(500);
 //turbidity
 
+  I2CMux.openChannel(0);
   sensorVS.takeMeasurementsWithBulb();
   //Prints all measurements
     //Visible readings
@@ -100,7 +105,7 @@ void loop(void) {
     Serial.print(sensorVS.getCalibratedRed(), 2);
     Serial.println("]");
   I2CMux.closeChannel(0);
-  delay(1000);
+  //delay(1000);
   I2CMux.openChannel(1);
   sensorIR.takeMeasurementsWithBulb();
 
@@ -120,7 +125,7 @@ void loop(void) {
     Serial.println("]");
   I2CMux.closeChannel(1);
 
-  delay(1000);
+  //delay(1000);
 
 
 

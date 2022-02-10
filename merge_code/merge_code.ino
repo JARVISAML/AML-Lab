@@ -54,7 +54,9 @@ void loop(void) {
 //  Serial.println(temperature);
 //  delay(100); //just here to slow down the output so it is easier to read
 //temperature
-    
+
+// prints in csv format:
+// temp, ph, ec, turbidity, visible light, ir sensor
     static unsigned long timepoint = millis();
     if(millis()-timepoint>1000U){                  //time interval: 1s
         timepoint = millis();
@@ -67,23 +69,27 @@ void loop(void) {
         ec_voltage = analogRead(EC_PIN)/1024.0*5000;   // read the voltage
         ec_Value = ec.readEC(ec_voltage,temperature);  // convert voltage to EC with temperature compensation
 
-        Serial.print("temperature:");
+        //Serial.print("temperature:");
         Serial.print(temperature,1);
-        Serial.println("^C");
-        Serial.print("pH:");
-        Serial.println(ph_Value,2);
+        //Serial.println("^C");
+        //Serial.print("pH:");
+        Serial.print(",");
+        Serial.print(ph_Value,2);
         
-        Serial.print("EC:");
+        //Serial.print("EC:");
+        Serial.print(",");
         Serial.print(ec_Value);
-        Serial.println("ms/cm");
+        Serial.print(",");
+        //Serial.println("ms/cm");
     }
     ph.calibration(ph_voltage,temperature);           // calibration process by Serail CMD
 //ph & EC
 
     int sensorValue = analogRead(A2);// read the input on analog pin 2:
     float voltage = sensorValue * (5.0 / 1024.0); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
-    Serial.print("Turbidity: ");
-    Serial.println(voltage); // print out the value you read:
+    //Serial.print("Turbidity: ");
+    Serial.print(voltage); // print out the value you read:
+    Serial.print(",");
     //delay(500);
 //turbidity
 
@@ -91,38 +97,50 @@ void loop(void) {
   sensorVS.takeMeasurementsWithBulb();
   //Prints all measurements
     //Visible readings
-    Serial.print(" Reading: V[");
+    //Serial.print(" Reading: V[");
     Serial.print(sensorVS.getCalibratedViolet(), 2);
-    Serial.print("] B[");
+    Serial.print(",");
+    //Serial.print("] B[");
+    Serial.print(",");
     Serial.print(sensorVS.getCalibratedBlue(), 2);
-    Serial.print("] G[");
+    Serial.print(",");
+    //Serial.print("] G[");
     Serial.print(sensorVS.getCalibratedGreen(), 2);
-    Serial.print("] Y[");
+    Serial.print(",");
+    //Serial.print("] Y[");
     Serial.print(sensorVS.getCalibratedYellow(), 2);
-    Serial.print("] O[");
+    Serial.print(",");
+    //Serial.print("] O[");
     Serial.print(sensorVS.getCalibratedOrange(), 2);
-    Serial.print("] R[");
+    Serial.print(",");
+    //Serial.print("] R[");
     Serial.print(sensorVS.getCalibratedRed(), 2);
-    Serial.println("]");
+    Serial.print(",");
+    //Serial.println("]");
   I2CMux.closeChannel(0);
   //delay(1000);
   I2CMux.openChannel(1);
   sensorIR.takeMeasurementsWithBulb();
 
     //Near IR readings
-    Serial.print(" Reading: R[");
+    //Serial.print(" Reading: R[");
     Serial.print(sensorIR.getCalibratedR(), 2);
-    Serial.print("] S[");
+    //Serial.print("] S[");
+    Serial.print(",");
     Serial.print(sensorIR.getCalibratedS(), 2);
-    Serial.print("] T[");
+    //Serial.print("] T[");
+    Serial.print(",");
     Serial.print(sensorIR.getCalibratedT(), 2);
-    Serial.print("] U[");
+    //Serial.print("] U[");
+    Serial.print(",");
     Serial.print(sensorIR.getCalibratedU(), 2);
-    Serial.print("] V[");
+    //Serial.print("] V[");
+    Serial.print(",");
     Serial.print(sensorIR.getCalibratedV(), 2);
-    Serial.print("] W[");
-    Serial.print(sensorIR.getCalibratedW(), 2);
-    Serial.println("]");
+    //Serial.print("] W[");
+    Serial.print(",");
+    Serial.println(sensorIR.getCalibratedW(), 2);
+    //Serial.println("]");
   I2CMux.closeChannel(1);
 
   //delay(1000);

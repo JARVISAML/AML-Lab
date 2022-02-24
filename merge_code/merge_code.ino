@@ -1,4 +1,8 @@
 #include <OneWire.h>
+
+
+void turn_off_EC(void);
+void turn_on_EC(void);
 int DS18S20_Pin = 2; //DS18S20 Signal pin on digital 2
 OneWire ds(DS18S20_Pin);  // on digital pin 2
 //temperature
@@ -26,8 +30,23 @@ float ec_voltage,ec_Value;
 DFRobot_EC ec;
 
 
+int trans_pin=10;
 
 
+
+void turn_off_EC(void){
+
+  digitalWrite(trans_pin,LOW);
+  
+}
+  
+  
+  
+
+void turn_on_EC(void){
+
+  digitalWrite(trans_pin,HIGH);
+}
 
 void setup(void) {
   
@@ -40,14 +59,13 @@ void setup(void) {
   I2CMux.closeChannel(0);
   I2CMux.openChannel(1);
   sensorIR.begin();
+  pinMode(trans_pin,OUTPUT);
+  turn_off_EC();
+  digitalWrite(10,LOW);
 
   I2CMux.closeAll();              // Set a base state which we know (also the default state on power on)
 
 }
-
-
-
-
 
 void loop(void) {
 //  float temperature = readTemperature();
@@ -101,7 +119,6 @@ void loop(void) {
     Serial.print(sensorVS.getCalibratedViolet(), 2);
     Serial.print(",");
     //Serial.print("] B[");
-    Serial.print(",");
     Serial.print(sensorVS.getCalibratedBlue(), 2);
     Serial.print(",");
     //Serial.print("] G[");

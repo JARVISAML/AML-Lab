@@ -84,8 +84,12 @@ void loop(void) {
         ph_voltage = analogRead(PH_PIN)/1024.0*5000;  // read the ph_voltage
         ph_Value = ph.readPH(ph_voltage,temperature);  // convert ph_voltage to pH with temperature compensation
         delay(1000);
+        turn_on_EC();
+        delay(100);
         ec_voltage = analogRead(EC_PIN)/1024.0*5000;   // read the voltage
         ec_Value = ec.readEC(ec_voltage,temperature);  // convert voltage to EC with temperature compensation
+        delay(100);
+        turn_off_EC();
 
         //Serial.print("temperature:");
         Serial.print(temperature,1);

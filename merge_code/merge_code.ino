@@ -25,7 +25,7 @@ DFRobot_PH ph;
 
 
 #include "DFRobot_EC.h"
-#define EC_PIN A1         // on analog pin 1
+#define EC_PIN A2         // on analog pin 1
 float ec_voltage,ec_Value;
 DFRobot_EC ec;
 
@@ -107,7 +107,7 @@ void loop(void) {
     ph.calibration(ph_voltage,temperature);           // calibration process by Serail CMD
 //ph & EC
 
-    int sensorValue = analogRead(A2);// read the input on analog pin 2:
+    int sensorValue = analogRead(A1);// read the input on analog pin 2:
     float voltage = sensorValue * (5.0 / 1024.0); // Convert the analog reading (which goes from 0 - 1023) to a voltage (0 - 5V):
     //Serial.print("Turbidity: ");
     Serial.print(voltage); // print out the value you read:

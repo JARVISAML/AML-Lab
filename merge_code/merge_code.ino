@@ -30,7 +30,7 @@ float ec_voltage,ec_Value;
 DFRobot_EC ec;
 
 
-int trans_pin=10;
+int trans_pin=6;
 
 
 
@@ -62,9 +62,16 @@ void setup(void) {
   pinMode(trans_pin,OUTPUT);
   turn_off_EC();
   digitalWrite(10,LOW);
+  Serial.println("test");
 
   I2CMux.closeAll();              // Set a base state which we know (also the default state on power on)
-
+  while(Serial.readString() != "t\n"){}
+  temperature = readTemperature();         // read your temperature sensor to execute temperature compensation
+  Serial.println("Temperature: ");
+  Serial.print(temperature,1);
+  while(Serial.readString() != "t\n"){}
+  Serial.println(" ");
+  Serial.println("Readings: ");
 }
 
 void loop(void) {
@@ -75,21 +82,23 @@ void loop(void) {
 
 // prints in csv format:
 // temp, ph, ec, turbidity, visible light, ir sensor
+
     static unsigned long timepoint = millis();
     if(millis()-timepoint>1000U){                  //time interval: 1s
         timepoint = millis();
-        temperature = readTemperature();         // read your temperature sensor to execute temperature compensation
         //temperature = 32.0;
         
         ph_voltage = analogRead(PH_PIN)/1024.0*5000;  // read the ph_voltage
         ph_Value = ph.readPH(ph_voltage,temperature);  // convert ph_voltage to pH with temperature compensation
-        delay(1000);
+         delay(1500);
+        //Serial.println("Hello");
         turn_on_EC();
-        delay(100);
+        delay(1500);
         ec_voltage = analogRead(EC_PIN)/1024.0*5000;   // read the voltage
         ec_Value = ec.readEC(ec_voltage,temperature);  // convert voltage to EC with temperature compensation
-        delay(100);
+        delay(1500);
         turn_off_EC();
+        delay(1500);
 
         //Serial.print("temperature:");
         Serial.print(temperature,1);

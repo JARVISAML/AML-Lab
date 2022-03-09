@@ -7,7 +7,7 @@ import time
 
 
 file='C:\\Users\\gassa\\Desktop\\data\\santos_java.csv'
-port = 'COM6'
+port = 'COM4'
 
 ard = serial.Serial(port,115200,timeout=5)
 flag=1

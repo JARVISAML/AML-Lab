@@ -7,7 +7,7 @@ import time
 
 
 file='C:\\Users\\gassa\\Desktop\\data\\santos_java.csv'
-port = 'COM4'
+port = 'COM6'
 
 ard = serial.Serial(port,115200,timeout=5)
 flag=1
@@ -166,7 +166,7 @@ while(1):
                     
                     elif input()=='y':
                         save_it = 1
-                        final[16] = float(1.0)
+                        final[16] = float(2)
                         print("measurements: ", rows)
                         
                         print('logging to csv')

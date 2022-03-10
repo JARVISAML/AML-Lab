@@ -72,7 +72,7 @@ void setup(void) {
   while(Serial.readString() != "t\n"){}
   Serial.println(" ");
   Serial.println("Readings: ");
-  delay(10000);
+  //delay(10000);
 }
 
 void loop(void) {

@@ -166,7 +166,7 @@ while(1):
                     
                     elif input()=='y':
                         save_it = 1
-                        final[16] = float(8)
+                        final[16] = float(11)
                         print("measurements: ", rows)
                         
                         print('logging to csv')

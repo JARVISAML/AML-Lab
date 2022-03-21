@@ -15,6 +15,7 @@ ctr=1
 hala=0
 itr = 3
 label = "santos_java"
+
     
      #     # info = ard.readline()
      
@@ -68,7 +69,7 @@ while(hala<2):
      ard.write(bytes('t\n', 'utf-8'))
      hala+=1
 
-print('STARTING BITCHEzzzzzzzzzz')
+print('STARTING')
 time.sleep(15)     
 for i in range(8):
     info = ard.readline()
@@ -80,6 +81,7 @@ for i in range(8):
 calc = 0
 prev = 0
 state = 0
+
 
 while(1):
     
@@ -203,4 +205,3 @@ while(1):
                 
                 print('<<Terminating>>')
                 break
-        

@@ -63,12 +63,12 @@ void setup(void) {
   turn_off_EC();
   digitalWrite(10,LOW);
   I2CMux.closeAll();              // Set a base state which we know (also the default state on power on)
-  Serial.println("test");
+  Serial.println("Press 't' to take temperature reading");
   while(Serial.readString() != "t\n"){}
   temperature = readTemperature();         // read your temperature sensor to execute temperature compensation
   Serial.println("Temperature: ");
   Serial.print(temperature,1);
-  Serial.println("test");
+  Serial.println("Press 't' to start data collection");
   while(Serial.readString() != "t\n"){}
   Serial.println(" ");
   Serial.println("Readings: ");
